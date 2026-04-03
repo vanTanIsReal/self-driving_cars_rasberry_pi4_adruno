@@ -1,16 +1,20 @@
 import os
 os.environ['OPENBLAS_CORETYPE'] = 'ARMV8'
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-LANE_MODEL_PATH = "/home/tuan/code/seg_ncnn_model"
-OBJ_MODEL_PATH = "/home/tuan/code/detect_ncnn_model"
-
-IMG_SIZE = 320
-FRAME_WIDTH = 320
-FRAME_HEIGHT = 240
-
-SERIAL_PORT = '/dev/ttyUSB0'
-BAUD_RATE = 9600
-
-SKIP_FRAMES = 2
+# --- CẤU HÌNH HỆ THỐNG ---
+os.environ['OPENBLAS_CORETYPE'] = 'ARMV8'
+base_dir = os.path.dirname(os.path.abspath(__file__))
+lane_model_path = "/home/tuan/code/seg_ncnn_model"
+obj_model_path = "/home/tuan/Desktop/detect1_ncnn_model"
+img_size = 320
+frame_width = 320
+frame_height = 240
+serial_port = '/dev/ttyUSB0'
+baud_rate = 9600
+ 
+# --- CẤU HÌNH TỐI ƯU FPS ---
+skip_lane = 2  # Cập nhật: Nhận diện đường mỗi 2 frame
+skip_obj = 5   # Nhận diện vật thể mỗi 5 frame
+roi_ratio = 0.5  # Lấy 50% phần dưới khung hình để quét làn đường
+ 
+marker_history = deque(maxlen=5)
