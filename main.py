@@ -9,7 +9,7 @@ from perception.lane_detection import compute_steering
 from perception.object_detection import detect_traffic_stop
 from control.serial_comm import init_serial, send_control
 from utils.visualization import draw_steering_gauge
-
+from perception.aruco_detection import detect_aruco_marker
 def main():
     print("[info] khoi tao mo hinh va camera...")
     lane_model = YOLO(lane_model_path, task="segment")
