@@ -53,3 +53,26 @@ def detect_node_color(frame):
             return node
 
     return 0
+def detect_aruco_marker(frame, annotated_frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    try:
+        # dành cho opencv mới
+        aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
+        parameters = cv2.aruco.DetectorParameters()
+        detector = cv2.aruco.ArucoDetector(aruco_dict, parameters)
+        corners, ids, rejected = detector.detectMarkers(gray)
+    except AttributeError:
+        # dành cho opencv cũ
+        aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_4X4_50)
+        parameters = cv2.aruco.DetectorParameters_create()
+        corners, ids, rejected = cv2.aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
+ 
+    if ids is not None and len(ids) > 0:
+        # Giữ lại vẽ Aruco để debug điểm dừng, không ảnh hưởng nhiều tới FPS
+        cv2.aruco.drawDetectedMarkers(annotated_frame, corners, ids)
+        marker_id = int(ids[0][0])
+        marker_history.append(marker_id)
+        if marker_history.count(marker_id) >= 2:
+            marker_history.clear()
+            return marker_id
+    return -1
